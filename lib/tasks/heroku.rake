@@ -3,14 +3,14 @@ namespace :h do
 
   desc 'Deploy the application'
   task :deploy do
-    bundlerize { sh "git push #{remote} origin/#{deploy_branch}:master" }
+    deploy
   end
 
   namespace :deploy do
     desc 'Deploy the application and run the migration(s)'
     task :deploy do
       bundlerize { sh "heroku maintenance:on -r #{remote}" }
-      bundlerize { sh "git push #{remote} origin/#{deploy_branch}:master" }
+      deploy
       bundlerize { sh "heroku run rake db:migrate -r #{remote}" }
       bundlerize { sh "heroku restart -r #{remote}" }
       bundlerize { sh "heroku maintenance:off -r #{remote}" }
@@ -56,6 +56,24 @@ namespace :h do
     bundlerize { sh "heroku ps -r #{remote}" }
   end
 
+  namespace :db do
+    desc 'Sync the remote database to the local one'
+    task :sync do
+      bundlerize { sh "heroku pgbackups:capture -r #{remote}" }
+      download_and_restore
+    end
+
+    desc 'Dump the remote database to ./remote.dump'
+    task :dump do
+      download_and_restore
+    end
+
+    desc 'Restore the local database from ./remote.dump'
+    task :restore do
+      restore
+    end
+  end
+
   #--------------------------------------------------------------------------
 
   def remote
@@ -68,6 +86,10 @@ namespace :h do
     end
   end
 
+  def deploy
+    bundlerize { sh "git push #{remote} origin/#{deploy_branch}:master" }
+  end
+
   def deploy_branch
     case remote
       when "staging"
@@ -75,6 +97,19 @@ namespace :h do
       when "production"
         "master"
     end
+  end
+
+  def download_and_restore
+    bundlerize { sh "curl -o remote.dump $(heroku pgbackups:url -r #{remote})" }
+    restore
+  end
+
+  def restore
+    bundlerize { sh "pg_restore -h localhost -U postgres -d #{dev_db_name} remote.dump --verbose --clean --no-acl --no-owner" }
+  end
+
+  def dev_db_name
+    Rails.configuration.database_configuration["development"]["database"]
   end
 
   def no_warning
