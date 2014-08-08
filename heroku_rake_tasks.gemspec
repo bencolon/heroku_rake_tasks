@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = HerokuRakeTasks::VERSION
   spec.authors       = ["Ben Colon"]
   spec.email         = ["ben@colon.com.fr"]
-  spec.summary       = %q{Rake tasks to manage Heroku}
-  spec.description   = %q{Rake tasks to manage Heroku}
+  spec.summary       = %q{Rake tasks to manage an Heroku Application}
+  spec.description   = %q{Rake tasks to manage an Heroku Application}
   spec.homepage      = ""
   spec.license       = "MIT"
 
