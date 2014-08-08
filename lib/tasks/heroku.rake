@@ -8,12 +8,22 @@ namespace :h do
 
   namespace :deploy do
     desc 'Deploy the application and run the migration(s)'
-    task :deploy do
+    task :migrate do
       bundlerize { sh "heroku maintenance:on -r #{remote}" }
       deploy
       bundlerize { sh "heroku run rake db:migrate -r #{remote}" }
       bundlerize { sh "heroku restart -r #{remote}" }
       bundlerize { sh "heroku maintenance:off -r #{remote}" }
+    end
+
+    desc 'Show the deployment-pending commits log'
+    task :commits do
+      bundlerize { sh "git log origin/dev...#{remote}/master --oneline --graph --decorate --no-merges" }
+    end
+
+    desc 'Show deployment-pending source ceode changes'
+    task :diff do
+      bundlerize { sh "git diff origin/dev #{remote}/master --name-only --exit-code" }
     end
   end
 
