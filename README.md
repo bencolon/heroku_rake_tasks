@@ -1,6 +1,6 @@
 # HerokuRakeTasks
 
-TODO: Write a gem description
+Rake tasks to manage an Heroku Application
 
 ## Installation
 
@@ -18,7 +18,22 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```bash
+rake h:config                  # Display the application env vars
+rake h:console                 # Start a Rails console
+rake h:db:dump                 # Dump the remote database to ./remote.dump
+rake h:db:restore              # Restore the local database from ./remote.dump
+rake h:db:sync                 # Sync the remote database to the local one
+rake h:dbconsole               # Start a DB console
+rake h:deploy                  # Deploy the application
+rake h:deploy:commits          # Show the deployment-pending commits log
+rake h:deploy:diff             # Show the deployment-pending source code changes
+rake h:deploy:migrate          # Deploy the application and run the migration(s)
+rake h:logs                    # Display recent log output for the application
+rake h:logs:tail               # Tail the logs for the application
+rake h:ps                      # List the application dynos
+rake h:restart                 # Restart the application
+```
 
 ## Contributing
 

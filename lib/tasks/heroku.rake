@@ -20,7 +20,7 @@ namespace :h do
       bundlerize { sh "git log origin/dev...#{remote}/master --oneline --graph --decorate --no-merges" }
     end
 
-    desc 'Show deployment-pending source ceode changes'
+    desc 'Show the deployment-pending source code changes'
     task :diff do
       bundlerize { sh "git diff origin/dev #{remote}/master --name-only" }
     end
