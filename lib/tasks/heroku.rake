@@ -1,6 +1,5 @@
 
 namespace :h do
-
   desc 'Deploy the application'
   task :deploy do
     deploy
@@ -23,21 +22,37 @@ namespace :h do
 
     desc 'Show deployment-pending source ceode changes'
     task :diff do
-      bundlerize { sh "git diff origin/dev #{remote}/master --name-only --exit-code" }
+      bundlerize { sh "git diff origin/dev #{remote}/master --name-only" }
     end
   end
 
   desc 'Display recent log output for the application'
   task :logs do
     bundlerize { sh "heroku logs -r #{remote}" }
-    no_warning
   end
 
   namespace :logs do
     desc 'Tail the logs for the application'
     task :tail do
       bundlerize { sh "heroku logs -t -r #{remote}" }
-      no_warning
+    end
+  end
+
+  namespace :db do
+    desc 'Sync the remote database with the local one'
+    task :sync do
+      dump
+      restore
+    end
+
+    desc 'Dump the remote database to ./remote.dump'
+    task :dump do
+      dump
+    end
+
+    desc 'Restore the local database from ./remote.dump'
+    task :restore do
+      restore
     end
   end
 
@@ -52,36 +67,18 @@ namespace :h do
   end
 
   desc 'Start a DB console'
-  task :console do
+  task :dbconsole do
     bundlerize { sh "heroku pg:psql -r #{remote}" }
   end
 
   desc 'Display the application env vars'
-  task :console do
+  task :config do
     bundlerize { sh "heroku config -r #{remote}" }
   end
 
   desc 'List the application dynos'
-  task :console do
+  task :ps do
     bundlerize { sh "heroku ps -r #{remote}" }
-  end
-
-  namespace :db do
-    desc 'Sync the remote database to the local one'
-    task :sync do
-      bundlerize { sh "heroku pgbackups:capture -r #{remote}" }
-      download_and_restore
-    end
-
-    desc 'Dump the remote database to ./remote.dump'
-    task :dump do
-      download_and_restore
-    end
-
-    desc 'Restore the local database from ./remote.dump'
-    task :restore do
-      restore
-    end
   end
 
   #--------------------------------------------------------------------------
@@ -109,9 +106,9 @@ namespace :h do
     end
   end
 
-  def download_and_restore
+  def dump
+    bundlerize { sh "heroku pgbackups:capture -r #{remote}" }
     bundlerize { sh "curl -o remote.dump $(heroku pgbackups:url -r #{remote})" }
-    restore
   end
 
   def restore
@@ -125,5 +122,11 @@ namespace :h do
   def no_warning
     task remote.to_sym do
     end
+  end
+end
+
+Rake::Task.tasks.each do |t|
+  t.enhance do
+    no_warning
   end
 end
