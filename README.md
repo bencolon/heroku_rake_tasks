@@ -2,6 +2,14 @@
 
 Rake tasks to manage an Heroku Application
 
+[![Gem Version](http://img.shields.io/gem/v/heroku_rake_tasks.svg)][gem]
+[![Code Climate](http://img.shields.io/codeclimate/github/bencolon/heroku_rake_tasks.svg)][codeclimate]
+[![Dependency Status](http://img.shields.io/gemnasium/bencolon/heroku_rake_tasks.svg)][gemnasium]
+
+[gem]: https://rubygems.org/gems/heroku_rake_tasks
+[codeclimate]: https://codeclimate.com/github/bencolon/heroku_rake_tasks
+[gemnasium]: https://gemnasium.com/bencolon/heroku_rake_tasks
+
 ## Installation
 
 Add this line to your application's Gemfile:
