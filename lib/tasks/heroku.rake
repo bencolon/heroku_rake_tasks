@@ -125,7 +125,7 @@ namespace :h do
   end
 end
 
-Rake::Task.tasks.each do |t|
+Rake::Task.tasks.select{|t| t.name =~ /^h.*$/}.each do |t|
   t.enhance do
     no_warning
   end
