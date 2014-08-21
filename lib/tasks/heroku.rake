@@ -41,18 +41,25 @@ namespace :h do
   namespace :db do
     desc 'Sync the remote database with the local one'
     task :sync do
-      dump
+      capture
+      download
       restore
     end
 
-    desc 'Dump the remote database to ./remote.dump'
+    desc 'Dump the remote database and download it to ./remote.dump'
     task :dump do
-      dump
+      capture
+      download
     end
 
     desc 'Restore the local database from ./remote.dump'
     task :restore do
       restore
+    end
+
+    desc 'Download the latest remote database capture to ./remote.dump'
+    task :get do
+      download
     end
   end
 
@@ -106,8 +113,11 @@ namespace :h do
     end
   end
 
-  def dump
+  def capture
     bundlerize { sh "heroku pgbackups:capture -r #{remote}" }
+  end
+
+  def download
     bundlerize { sh "curl -o remote.dump $(heroku pgbackups:url -r #{remote})" }
   end
 

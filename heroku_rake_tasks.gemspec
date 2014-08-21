@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ben Colon"]
   spec.email         = ["ben@colon.com.fr"]
   spec.summary       = %q{Rake tasks to manage an Heroku Application}
-  spec.description   = %q{Rake tasks to manage an Heroku Application}
-  spec.homepage      = ""
+  spec.description   = %q{Rake tasks to manage an Heroku Application (Deploy tasks, DB tasks, ...)}
+  spec.homepage      = "https://github.com/bencolon/heroku_rake_tasks"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

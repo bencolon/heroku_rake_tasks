@@ -29,9 +29,10 @@ Or install it yourself as:
 ```bash
 rake h:config                  # Display the application env vars
 rake h:console                 # Start a Rails console
-rake h:db:dump                 # Dump the remote database to ./remote.dump
+rake h:db:dump                 # Dump the remote database and download it to ./remote.dump
+rake h:db:get                  # Download the latest remote database capture to ./remote.dump
 rake h:db:restore              # Restore the local database from ./remote.dump
-rake h:db:sync                 # Sync the remote database to the local one
+rake h:db:sync                 # Sync the remote database with the local one
 rake h:dbconsole               # Start a DB console
 rake h:deploy                  # Deploy the application
 rake h:deploy:commits          # Show the deployment-pending commits log
