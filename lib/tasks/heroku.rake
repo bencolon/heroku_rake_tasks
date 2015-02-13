@@ -88,6 +88,11 @@ namespace :h do
     bundlerize { sh "heroku ps -r #{remote}" }
   end
 
+  desc 'Start a PostgreSql console'
+  task :ps do
+    bundlerize { sh "heroku pg:psql -r #{remote}" }
+  end
+
   #--------------------------------------------------------------------------
 
   def remote

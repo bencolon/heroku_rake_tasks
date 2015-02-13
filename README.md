@@ -42,6 +42,7 @@ rake h:logs                    # Display recent log output for the application
 rake h:logs:tail               # Tail the logs for the application
 rake h:ps                      # List the application dynos
 rake h:restart                 # Restart the application
+rake h:psql                    # Start a PostgreSql console
 ```
 
 ## Contributing
