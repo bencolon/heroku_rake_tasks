@@ -120,19 +120,19 @@ namespace :h do
 
   def capture
     bundlerize do
-      sh "heroku pgbackups:capture -r #{remote}" do |ok, res|
+      sh "heroku pg:backups capture -r #{remote}" do |ok, res|
         unless ok
-          sh "heroku pgbackups -r #{remote}"
+          sh "heroku pg:backups -r #{remote}"
           puts "Enter the backup id you want to delete :"
           backup_id = $stdin.gets
-          sh "heroku pgbackups:destroy #{backup_id.strip} -r #{remote}"
+          sh "heroku pg:backups delete #{backup_id.strip} -r #{remote}"
         end
       end
     end
   end
 
   def download
-    bundlerize { sh "curl -o remote.dump $(heroku pgbackups:url -r #{remote})" }
+    bundlerize { sh "curl -o remote.dump $(heroku pg:backups public-url -q -r #{remote})" }
   end
 
   def restore
