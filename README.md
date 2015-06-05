@@ -45,6 +45,33 @@ rake h:restart                 # Restart the application
 rake h:psql                    # Start a PostgreSql console
 ```
 
+### With a remote
+
+```bash
+rake h:config production
+```
+
+### Without a remote
+
+If no remote is defined, the "heroku" remote used will be used by default
+
+```bash
+rake h:config                  # same as rake h:config heroku
+```
+
+If a "staging" remote is found, it will be used over "heroku".
+
+```bash
+rake h:config                  # same as rake h:config staging, if a staging remote is found
+```
+
+### Remote alias
+
+```bash
+rake h:config p                 # production remote
+rake h:config s                 # staging remote
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/heroku_rake_tasks/fork )
