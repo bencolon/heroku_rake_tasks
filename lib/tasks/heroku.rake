@@ -89,14 +89,29 @@ namespace :h do
   end
 
   desc 'Start a PostgreSql console'
-  task :ps do
+  task :psql do
     bundlerize { sh "heroku pg:psql -r #{remote}" }
   end
 
   #--------------------------------------------------------------------------
 
   def remote
-    ARGV.count == 1 ? "staging" : ARGV.last
+    if ARGV.count > 1
+      remote = ARGV[1]
+      case remote
+        when "p"
+          "production"
+        when "s"
+          "staging"
+        when "t"
+          "test"
+      end
+    else
+      remote = "staging" if `git remote`.include?("staging")
+      remote = "heroku"
+    end
+
+    remote
   end
 
   def bundlerize
